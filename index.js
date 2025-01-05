@@ -1,4 +1,3 @@
-// Helper para formatar valores monetários
 function formatCurrency(value) {
     const formatter = Intl.NumberFormat('pt-BR', {
       style: 'currency',
@@ -7,7 +6,7 @@ function formatCurrency(value) {
     return formatter.format(value);
   }
   
-  // Cria o container da transação
+ 
   function createTransactionContainer(id) {
     const container = document.createElement('div');
     container.classList.add('transaction');
@@ -15,7 +14,6 @@ function formatCurrency(value) {
     return container;
   }
   
-  // Cria o título da transação
   function createTransactionTitle(name) {
     const title = document.createElement('span');
     title.classList.add('transaction-title');
@@ -23,7 +21,6 @@ function formatCurrency(value) {
     return title;
   }
   
-  // Cria o elemento de valor da transação
   function createTransactionAmount(amount) {
     const span = document.createElement('span');
     span.classList.add('transaction-amount');
@@ -33,7 +30,6 @@ function formatCurrency(value) {
     return span;
   }
   
-  // Renderiza uma transação na página
   function renderTransaction(transaction) {
     const container = createTransactionContainer(transaction.id);
     const title = createTransactionTitle(transaction.name);
@@ -45,14 +41,12 @@ function formatCurrency(value) {
     document.querySelector('#transactions').append(container);
   }
   
-  // Atualiza o saldo total
   function updateBalance() {
     const balanceSpan = document.querySelector('#balance');
     const balance = transactions.reduce((sum, transaction) => sum + transaction.amount, 0);
     balanceSpan.textContent = formatCurrency(balance);
   }
   
-  // Busca todas as transações do servidor
   async function fetchTransactions() {
     try {
       const response = await fetch('http://localhost:3000/transactions');
@@ -64,7 +58,6 @@ function formatCurrency(value) {
     }
   }
   
-  // Salva ou atualiza uma transação
   async function saveTransaction(ev) {
     ev.preventDefault();
   
@@ -74,7 +67,7 @@ function formatCurrency(value) {
   
     try {
       if (id) {
-        // Atualizar transação existente
+       
         const response = await fetch(`http://localhost:3000/transactions/${id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -89,8 +82,8 @@ function formatCurrency(value) {
         document.querySelector(`#transaction-${id}`).remove();
         renderTransaction(updatedTransaction);
       } else {
-        // Criar nova transação
-        const response = await fetch('http://localhost:3000/transactions', {
+        
+          const response = await fetch('http://localhost:3000/transactions', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, amount }),
@@ -109,7 +102,6 @@ function formatCurrency(value) {
     }
   }
   
-  // Botão para editar transações
   function createEditTransactionBtn(transaction) {
     const editBtn = document.createElement('button');
     editBtn.classList.add('edit-btn');
@@ -122,7 +114,6 @@ function formatCurrency(value) {
     return editBtn;
   }
   
-  // Botão para excluir transações
   function createDeleteTransactionButton(id) {
     const deleteBtn = document.createElement('button');
     deleteBtn.classList.add('delete-btn');
@@ -143,8 +134,9 @@ function formatCurrency(value) {
     return deleteBtn;
   }
   
-  // Configuração inicial
-  async function setup() {
+ // Initial Setup
+
+async function setup() {
     try {
       const results = await fetchTransactions();
       transactions.push(...results);
@@ -155,10 +147,9 @@ function formatCurrency(value) {
     }
   }
   
-  // Lista de transações em memória
   let transactions = [];
   
-  // Inicialização da página
+// Page initialization
   document.addEventListener('DOMContentLoaded', setup);
   document.querySelector('form').addEventListener('submit', saveTransaction);
   
